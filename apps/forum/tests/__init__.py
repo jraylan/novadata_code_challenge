@@ -4,3 +4,9 @@ from .comment_api_test import CommentApiTestCase
 from .model_view_test import ModelViewTestCase
 
 
+
+__all__ = [
+    'PostApiTestCase',
+    'CommentApiTestCase',
+    'ModelViewTestCase'
+]

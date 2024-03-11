@@ -69,5 +69,21 @@ Uma coleção do Postman com todas as requisições à API está disponível [ne
 
 
 ## Considerações
+Devido a compromissos previamente definidos, só foi possível iniciar o desafio na tarde do dia
+10/03. Por isso, alguns polimentos não pode ser aplicado a tempo. Contudo, todas as especificações
+solicitadas foram atendias. Aqui estão algumas considerações levantadas durante a realização do desafio.
 
+### Adaptações ao layout
+Alguns requisitos solicitados tiveram que ser adaptado ao layout de uma forma que o design se mantivesse limpo. Estas adaptações serão
+detalhadas abaixo.
 
+#### Listagem de comentários na lista de postagens
+Um dos requisitos é que na lista de postagens deveria haver os comentários das postagens. Esta funcionalidade foi adicionada, para ver
+os comentários basta clicar no link na coluna com o número de comentários.
+![Lista de postagem](doc/assets/post_list.jpeg)
+![Lista de postagem com comentários abertos](doc/assets/post_list_comments.jpeg)
+
+#### Selecionar autor na criação de postagens
+Outro requisito documentado é a possibilidade de selecionar o autor do post na criação do mesmo. Na API, eu segui a abordagem que eu
+seguiria caso este requisito não fosse exposto: o autor do post é o usuário que fez a requisição. O mesmo vale para os comentário, tanto pela API quanto pelo template.
+![Criação de postagem](doc/assets/post_create_author.jpeg)
