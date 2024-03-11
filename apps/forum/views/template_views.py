@@ -22,7 +22,7 @@ class PostListView(generic.ListView):
     # Seguindo a especificação
     ordering = 'created_at'
     # Pagina as postagens de 10 em 10.
-    paginate_by = None
+    paginate_by = 10
 
     @property
     def queryset(self):

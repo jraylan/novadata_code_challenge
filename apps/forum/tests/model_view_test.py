@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .base import fake
+from apps.forum.models import Post, Comment
 from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse
@@ -11,10 +12,12 @@ LOGIN_CREDENTIALS = {
     'password': 'admin'
 }
 
+TEST_USER_ID = 11
+
 CREATE_POST_DATA = {
     'title': fake.paragraph(nb_sentences=1)[:255],
     'content': fake.paragraph(nb_sentences=fake.random.randint(7, 15)),
-    'author_id': 11
+    'author_id': TEST_USER_ID
 }
 
 CREATE_COMMENT_POST_ID = 3
@@ -25,7 +28,7 @@ CREATE_COMMENT_DATA = {
 
 
 
-class PostModelViewTestCase(TestCase):
+class ModelViewTestCase(TestCase):
     fixtures = ["test_db_backup.json"]
 
     def assertNotTemplateUsed(self, response=None, msg_prefix=""):
@@ -48,6 +51,9 @@ class PostModelViewTestCase(TestCase):
 
     @cached_property
     def session_cookie(self):
+        """Forma mais prática de logar no sistema de forma a reduzir a necessidade de
+        executar `self.client.login` e `self.cliente.logout`.
+        """
         # Executa o login
         response = self.client.post(
             reverse('login'), follow=True, data=LOGIN_CREDENTIALS)
@@ -150,9 +156,13 @@ class PostModelViewTestCase(TestCase):
 
     
     def test_view_performance(self):
-        with self.assertNumQueries(3):
+        # Devido às subqueries feitas, a contagem de queries
+        # é 4.
+        with self.assertNumQueries(4):
             self.client.get(reverse('post_list'))
 
+        # Devido às subqueries feitas, a contagem de queries
+        # é 3.
         with self.assertNumQueries(3):
             self.client.get(
                 reverse('post_detail', kwargs={'pk': 2}))
@@ -184,3 +194,35 @@ class PostModelViewTestCase(TestCase):
         # Certifica-se de que nenhum template foi usado
         self.assertNotTemplateUsed(response)
 
+    def test_view_delete_post(self):
+        post = Post.objects.create(
+            title=fake.paragraph(nb_sentences=1)[:255],
+            content=fake.paragraph(nb_sentences=2),
+            author_id=TEST_USER_ID)
+        
+        response = self.client.post(
+            reverse('post_delete', kwargs={'pk': post.id}),
+            **self.session_cookie)
+        # Ao apagar uma postagem, a view redireciona para o post_list
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('post_list'))
+        # Certifica-se de que nenhum template foi usado
+        self.assertNotTemplateUsed(response)
+
+    def test_view_delete_comment(self):
+        post_id = 10
+
+        comment = Comment.objects.create(
+            content=fake.paragraph(nb_sentences=2),
+            author_id=TEST_USER_ID,
+            post_id=post_id)
+
+        response = self.client.post(
+            reverse('post_comment_delete', kwargs={'pk': comment.id}),
+            **self.session_cookie)
+        # Ao apagar um comentário, a view redireciona para o post_detail
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            response.url, reverse('post_detail', kwargs={'pk': post_id}))
+        # Certifica-se de que nenhum template foi usado
+        self.assertNotTemplateUsed(response)

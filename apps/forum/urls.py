@@ -7,9 +7,9 @@ urlpatterns = [
      path('create/', views.PostCreationView.as_view(), name='post_create'),
      path('<int:pk>/',
             views.PostDetailView.as_view(), name='post_detail'),
-     path('<int:pk>/apagar/',
+     path('<int:pk>/delete/',
          views.PostDeletionView.as_view(), name='post_delete'),
-     path('comment/<int:pk>/apagar/',
+     path('comment/<int:pk>/delete/',
          views.CommentDeletionView.as_view(), name='post_comment_delete'),
 
      # api
