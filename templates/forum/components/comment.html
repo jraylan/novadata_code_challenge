@@ -1,0 +1,29 @@
+{% load i18n %}
+<div class="card mt-3" id="comment-{{comment.id}}">
+    <div class="card-header">
+        <div class="d-flex">
+            <div class="flex-1 w-100">
+                <strong>
+                    {{comment.author.get_full_name|default:comment.author.username}}
+                </strong>
+                {% trans 'comentou em' %} {{comment.created_at | date:'d/m/Y'}} {% trans 'às' %} {{comment.created_at | date:'H:i:s'}}
+            </div><!-- .flex-1 .w-100 -->
+            {% if comment.author == user and not disable_form %}
+            <form
+                method="post" action="{% url 'post_comment_delete' comment.id %}"
+                data-confirm-title="{% trans 'Apagar Comentário' %}"
+                data-confirm-message="{% trans 'Tem certeza que deseja apagar o comentário? Esta ação não pode ser desfeita.' %}"
+                data-confirm-ok-label="{% trans 'Apagar' %}"
+            >
+                {% csrf_token %}
+                <input type="submit" class="btn btn-sm btn-danger float-right" value="{% trans 'Apagar' %}">
+            </form>
+            {% endif %}
+        </div><!-- .d-flex -->
+    </div><!-- .card-header -->
+    <div class="card-body">
+        <p class="card-text">
+            {{comment.content}}
+        </p>
+    </div><!-- .card-body -->
+</div><!-- .card .mt-3 -->

@@ -1,0 +1,4 @@
+<div class="form-control" id="{{id}}" data-target="{{target}}" contenteditable data-role="composer-text-field"></div>
+{% for err in form.errors.content %}
+<p class="p-0 text-danger">{{err}}</p>
+{% endfor %}

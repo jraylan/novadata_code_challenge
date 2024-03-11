@@ -1,0 +1,23 @@
+{% extends "base_site.html" %}
+{% load i18n static %}
+
+{% block title %}
+    {% trans "Criar Postagem" %}
+{% endblock %}
+
+{% block links %}
+{% endblock %}
+
+
+{% block content %}
+
+{% url 'post_create' as url_base %}
+
+{% include 'forms/form.html' with method="post" action=url_base className="form" id="create-post-form" submit_text='Postar' %}
+
+{% endblock %}
+
+
+{% block scripts %}
+{{ form.media }}
+{% endblock %}

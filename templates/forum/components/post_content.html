@@ -1,0 +1,35 @@
+{% load i18n %}
+<div class="d-flex">
+    <div class="flex-1 w-100">        
+        <h2>
+            {{object.title}}
+            <small class="text-body-secondary">#{{object.id}}</small>
+        </h2>
+        <div>
+            <strong>
+                {{object.author.get_full_name|default:object.author.username}}
+            </strong>
+            <span class="text-body-secondary">
+            {% trans 'publicou em' %} {{object.created_at | date:'d/m/Y'}} {% trans 'às' %} {{object.created_at | date:'H:i:s'}}
+            </span>
+        </div>
+    </div><!-- .flex-1 .w-100 -->
+    {% if object.author == user and not disable_form %}
+    <form
+        method="post"
+        action="{% url 'post_delete' object.id %}"
+        data-confirm-title="{% trans 'Apagar Postagem' %}"
+        data-confirm-message="{% trans 'Tem certeza que deseja apagar a postagem? Esta ação não pode ser desfeita.' %}"
+        data-confirm-ok-label="{% trans 'Apagar' %}"
+    >
+        {% csrf_token %}
+        <input type="submit" class="btn btn-sm btn-danger float-right" value="{% trans 'Apagar' %}">
+    </form>
+    {% endif %}
+</div><!-- .d-flex -->
+
+
+{# Conteúdo da postagem #}
+<p class="mt-1">
+    {{object.content}}
+</p>

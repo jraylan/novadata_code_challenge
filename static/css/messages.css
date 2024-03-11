@@ -1,0 +1,8 @@
+#message-container {
+    position: fixed;
+    right: 0;
+    top: 0;
+    max-width: max(400px, 50vw);
+    height: fit-content;
+    padding: 0.5em;
+}

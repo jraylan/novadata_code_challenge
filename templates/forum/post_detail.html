@@ -1,0 +1,42 @@
+{% extends "base_site.html" %}
+{% load i18n static %}
+
+
+{% block title %}{{object.title}}{% endblock %}
+
+{% block links %}
+<link href="{% static 'css/forum.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+<div class="post-detail">
+	{# Postagem #}
+	{% include './components/post_content.html' %}
+
+	{# Comentários #}
+	{% for comment in object.comments.all %}
+		{% if forloop.first %}
+			<h5 class="mt-4">{% trans 'Comentários' %}</h5>
+		{% endif %}
+		{% include './components/comment.html' %}
+	{% endfor %}
+
+	{# Checar se o usuário está logado #}
+	{% if user.is_authenticated %}
+	{# Compor novo comentário #}
+	<h5 class="mt-4">{% trans 'Adicionar um comentário' %}</h5>
+
+	{# Não utilizei o form.render_as... para utilizar o bootstrap #}
+	{% include './components/comment_compose.html' %}
+	{% endif %}
+
+</div><!-- .post-detail -->
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{% static 'js/postagem.js' %}"></script>
+<script src="{% static 'js/compor.js' %}"></script>
+{% endblock %}

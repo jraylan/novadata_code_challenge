@@ -1,0 +1,20 @@
+{% load i18n %}
+<form method="post" action="{% url 'post_detail' object.id %}">
+    <div class="card mt-3">
+        <div class="card-header">
+            <div class="d-flex">
+                <div class="flex-1 w-100">
+                    <strong>
+                        {{user.get_full_name|default:user.username}}
+                    </strong>
+                </div><!-- .flex-1 .w-100 -->
+            </div><!-- .d-flex -->
+        </div><!-- .card-header -->
+        <div class="card-body">
+            {% include 'utils/composer.html' with id="comment-composer" target="#comment-composer-target" form=comment_form %}
+        </div><!-- .card-body -->
+    </div><!-- .card .mt-3 -->
+    {% csrf_token %}
+    <input type="hidden" name="content" id="comment-composer-target" value="">
+    <input type="submit" class="btn btn-success mt-2 float-end" value="{% trans 'Enviar'%}">  
+</form>

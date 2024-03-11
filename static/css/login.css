@@ -1,0 +1,52 @@
+.login-form-wrapper{
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  padding: 1.5rem;
+
+  align-items: center;
+  flex-direction: column; 
+  justify-content: center;
+}
+
+.login-form-wrapper form{
+    position: relative;
+    width: 90%;
+    max-width: 450px;
+    padding: 2rem;
+    margin: auto;
+
+    background: #fff;
+    -webkit-border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
+            border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
+    -webkit-box-shadow: 0 2rem 4rem 0 #0005;
+            box-shadow: 0 2rem 4rem 0 #0005;
+}
+
+
+.login-form-wrapper form input {
+  display: block;
+  padding: 1em 5em;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+
+  text-align: center;
+  font-size: 13px;
+  text-decoration: none;
+
+  -webkit-transition: all 0.3s ease-in-out;
+     -moz-transition: all 0.3s ease-in-out;
+      -ms-transition: all 0.3s ease-in-out;
+       -o-transition: all 0.3s ease-in-out;
+          transition: all 0.3s ease-in-out;
+}
+
+.login-form-wrapper form .form-group{
+  padding: 0.5 0 0.5em;
+  margin-bottom: 1em;
+}
+
+
+.login-form-wrapper form input::placeholder{
+  text-transform: uppercase;
+}

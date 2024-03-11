@@ -1,0 +1,77 @@
+{% extends "base_site.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Postagens" %}{% endblock %}
+
+{% block links %}
+<link href="{% static 'css/forum.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+{% url 'post_list' as url_base %}
+
+{% if user.is_authenticated %}
+<div class="text-end">
+  <a class="btn btn-primary" href="{% url 'post_create' %}">{% trans 'Publicar' %}</a>
+</div>
+{% endif %}
+
+<div class="accordion px-2 mb-2" id="post-list">
+  <div class="accordion-item p-2">
+    <div class='accordion-header row'>
+      <div class="col-5 text-break fw-bold">{% trans 'Tópico' %}</div>
+      <div class="col-2 text-break fw-bold text-center">{% trans 'Autor' %}</div>
+      <div class="col-2 text-break fw-bold text-center">{% trans 'Respostas' %}</div>
+      <div class="col-3 text-break fw-bold text-center">{% trans 'Criação' %}</div>
+    </div>
+  </div><!-- .row -->
+  {% for object in object_list %}
+  <div class="accordion-item p-2">
+    <div class='accordion-header row' id="post-{{object.id}}-header">
+      <div class="col-5 text-break">
+        <a href="{% url 'post_detail' object.id %}">{{object.title}}</a>
+      </div>
+      <div class="col-2 text-break text-center">
+        {{object.author.get_full_name |default:object.author.username}}
+      </div>
+      <div class="col-2 text-break text-center">
+        <a
+          href="#"
+          data-bs-toggle="collapse"
+          data-bs-target="#post-{{object.id}}-comments"
+          aria-expanded="false"
+          aria-controls="post-{{object.id}}-comments"
+        >
+          {{object.comments_qtd}}
+        </a>
+      </div>
+      <div class="col-3 text-break text-center">
+        {{object.created_at | date:'d/m/Y'}}
+      </div>
+    </div>
+    <div class="accordion-collapse collapse" id="post-{{object.id}}-comments" aria-labelledby="post-{{object.id}}-header" data-bs-parent="#post-list">
+      <div class="accordion-body">
+        {% include './components/post_content.html' with disable_form=True %}
+        <hr/>
+        {% for comment in object.comments.all %}
+          {% include './components/comment.html' with disable_form=True %}
+        {% endfor %}
+      </div>
+    </div>
+
+  </div><!-- .row -->
+  {% empty %}
+    <div class="row">
+      <div class="col text-muted">{% trans 'Não há postagens' %}</div>
+    </div><!-- .row -->
+  {% endfor %}
+</div>
+
+{% include '../utils/pagination.html'%}
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{% static 'js/forum.js' %}"></script>
+{% endblock %}
