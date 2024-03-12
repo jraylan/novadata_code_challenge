@@ -64,6 +64,8 @@ python3 manage.py test
 python3 manage.py runserver
 ```
 
+Acesse [http://localhost:8000/forum](http://localhost:8000/forum). Use o usuário/senha admin/admin.
+
 Uma coleção do Postman com todas as requisições à API está disponível [neste link](https://www.postman.com/jeffersonraylan/workspace/novadata/collection/8168733-b6125a1d-47c3-490e-9488-130e120ee6cc?action=share&creator=8168733).
 
 
